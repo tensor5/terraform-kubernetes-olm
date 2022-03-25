@@ -1,0 +1,19 @@
+ignore_merge_commits = false
+branch_whitelist = []
+pre_bump_hooks = []
+post_bump_hooks = []
+tag_prefix = "v"
+
+[commit_types]
+
+[changelog]
+authors = [
+    { signature = "Nicola Squartini", username = "tensor5" },
+]
+owner = "tensor5"
+path = "CHANGELOG.md"
+remote = "github.com"
+repository = "terraform-kubernetes-prometheus-crds"
+template = "remote"
+
+[bump_profiles]

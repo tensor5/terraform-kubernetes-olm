@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## [v0.2.0](https://github.com/tensor5/terraform-kubernetes-prometheus-crds/compare/v0.1.0..v0.2.0) - 2022-05-04
+#### Bug Fixes
+- do not hard code version in gen-crds.sh - ([2b15925](https://github.com/tensor5/terraform-kubernetes-prometheus-crds/commit/2b1592503414d46c0d69e5c62327534481c09df8)) - [@tensor5](https://github.com/tensor5)
+#### Features
+- upgrade to OLM v0.21.1 - ([930b9c7](https://github.com/tensor5/terraform-kubernetes-prometheus-crds/commit/930b9c76f82996d9cd02cdc5da8e63dc65530894)) - [@tensor5](https://github.com/tensor5)
+- add flake.nix - ([e85f01b](https://github.com/tensor5/terraform-kubernetes-prometheus-crds/commit/e85f01b025b763d95d411accb9242fe64a00c8ee)) - [@tensor5](https://github.com/tensor5)
+
+- - -
+
 ## [v0.1.0](https://github.com/tensor5/terraform-kubernetes-prometheus-crds/compare/5c1b2b581f5a58a59cc7779f30131c698db6167a..v0.1.0) - 2022-03-25
 #### Features
 - initial implementation - ([5fb88fa](https://github.com/tensor5/terraform-kubernetes-prometheus-crds/commit/5fb88fadeb4bbd74b1c528126c64febf0c822e86)) - [@tensor5](https://github.com/tensor5)

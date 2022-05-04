@@ -14,5 +14,5 @@ echo "Formatting..."
 terraform fmt -list=false
 
 echo "locals {
-  olm_version = \"0.20.0\"
+  olm_version = \"$version\"
 }" > olm-version.tf

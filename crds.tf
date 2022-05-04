@@ -4,7 +4,7 @@ resource "kubernetes_manifest" "customresourcedefinition_catalogsources_operator
     "kind"       = "CustomResourceDefinition"
     "metadata" = {
       "annotations" = {
-        "controller-gen.kubebuilder.io/version" = "v0.6.2"
+        "controller-gen.kubebuilder.io/version" = "v0.8.0"
       }
       "name" = "catalogsources.operators.coreos.com"
     }
@@ -195,8 +195,8 @@ resource "kubernetes_manifest" "customresourcedefinition_catalogsources_operator
                       "description" = "Represents the state of a CatalogSource. Note that Message and Reason represent the original status information, which may be migrated to be conditions based in the future. Any new features introduced will use conditions."
                       "items" = {
                         "description" = <<-EOT
-                        Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: "Available", "Progressing", and "Degraded"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:"conditions,omitempty" patchStrategy:"merge" patchMergeKey:"type" protobuf:"bytes,1,rep,name=conditions"` 
-                             // other fields }
+                        Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{ // Represents the observations of a foo's current state. // Known .status.conditions.type are: "Available", "Progressing", and "Degraded" // +patchMergeKey=type // +patchStrategy=merge // +listType=map // +listMapKey=type Conditions []metav1.Condition `json:"conditions,omitempty" patchStrategy:"merge" patchMergeKey:"type" protobuf:"bytes,1,rep,name=conditions"` 
+                         // other fields }
                         EOT
                         "properties" = {
                           "lastTransitionTime" = {
@@ -359,7 +359,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
     "kind"       = "CustomResourceDefinition"
     "metadata" = {
       "annotations" = {
-        "controller-gen.kubebuilder.io/version" = "v0.6.2"
+        "controller-gen.kubebuilder.io/version" = "v0.8.0"
       }
       "name" = "clusterserviceversions.operators.coreos.com"
     }
@@ -1140,7 +1140,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                           "type" = "array"
                                         }
                                         "verbs" = {
-                                          "description" = "Verbs is a list of Verbs that apply to ALL the ResourceKinds and AttributeRestrictions contained in this rule. '*' represents all verbs."
+                                          "description" = "Verbs is a list of Verbs that apply to ALL the ResourceKinds contained in this rule. '*' represents all verbs."
                                           "items" = {
                                             "type" = "string"
                                           }
@@ -2147,7 +2147,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "description" = "PostStart is called immediately after a container is created. If the handler fails, the container is terminated and restarted according to its restart policy. Other management of the container blocks until the hook completes. More info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks"
                                                           "properties" = {
                                                             "exec" = {
-                                                              "description" = "One and only one of the following should be specified. Exec specifies the action to take."
+                                                              "description" = "Exec specifies the action to take."
                                                               "properties" = {
                                                                 "command" = {
                                                                   "description" = "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy."
@@ -2215,7 +2215,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                               "type" = "object"
                                                             }
                                                             "tcpSocket" = {
-                                                              "description" = "TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported TODO: implement a realistic TCP lifecycle hook"
+                                                              "description" = "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept for the backward compatibility. There are no validation of this field and lifecycle hooks will fail in runtime when tcp handler is specified."
                                                               "properties" = {
                                                                 "host" = {
                                                                   "description" = "Optional: Host name to connect to, defaults to the pod IP."
@@ -2243,10 +2243,10 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type" = "object"
                                                         }
                                                         "preStop" = {
-                                                          "description" = "PreStop is called immediately before a container is terminated due to an API request or management event such as liveness/startup probe failure, preemption, resource contention, etc. The handler is not called if the container crashes or exits. The reason for termination is passed to the handler. The Pod's termination grace period countdown begins before the PreStop hooked is executed. Regardless of the outcome of the handler, the container will eventually terminate within the Pod's termination grace period. Other management of the container blocks until the hook completes or until the termination grace period is reached. More info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks"
+                                                          "description" = "PreStop is called immediately before a container is terminated due to an API request or management event such as liveness/startup probe failure, preemption, resource contention, etc. The handler is not called if the container crashes or exits. The Pod's termination grace period countdown begins before the PreStop hook is executed. Regardless of the outcome of the handler, the container will eventually terminate within the Pod's termination grace period (unless delayed by finalizers). Other management of the container blocks until the hook completes or until the termination grace period is reached. More info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks"
                                                           "properties" = {
                                                             "exec" = {
-                                                              "description" = "One and only one of the following should be specified. Exec specifies the action to take."
+                                                              "description" = "Exec specifies the action to take."
                                                               "properties" = {
                                                                 "command" = {
                                                                   "description" = "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy."
@@ -2314,7 +2314,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                               "type" = "object"
                                                             }
                                                             "tcpSocket" = {
-                                                              "description" = "TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported TODO: implement a realistic TCP lifecycle hook"
+                                                              "description" = "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept for the backward compatibility. There are no validation of this field and lifecycle hooks will fail in runtime when tcp handler is specified."
                                                               "properties" = {
                                                                 "host" = {
                                                                   "description" = "Optional: Host name to connect to, defaults to the pod IP."
@@ -2348,7 +2348,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                       "description" = "Periodic probe of container liveness. Container will be restarted if the probe fails. Cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes"
                                                       "properties" = {
                                                         "exec" = {
-                                                          "description" = "One and only one of the following should be specified. Exec specifies the action to take."
+                                                          "description" = "Exec specifies the action to take."
                                                           "properties" = {
                                                             "command" = {
                                                               "description" = "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy."
@@ -2364,6 +2364,27 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "description" = "Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1."
                                                           "format"      = "int32"
                                                           "type"        = "integer"
+                                                        }
+                                                        "grpc" = {
+                                                          "description" = "GRPC specifies an action involving a GRPC port. This is an alpha field and requires enabling GRPCContainerProbe feature gate."
+                                                          "properties" = {
+                                                            "port" = {
+                                                              "description" = "Port number of the gRPC service. Number must be in the range 1 to 65535."
+                                                              "format"      = "int32"
+                                                              "type"        = "integer"
+                                                            }
+                                                            "service" = {
+                                                              "description" = <<-EOT
+                                                              Service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md). 
+                                                               If this is not specified, the default behavior is defined by gRPC.
+                                                              EOT
+                                                              "type"        = "string"
+                                                            }
+                                                          }
+                                                          "required" = [
+                                                            "port",
+                                                          ]
+                                                          "type" = "object"
                                                         }
                                                         "httpGet" = {
                                                           "description" = "HTTPGet specifies the http request to perform."
@@ -2436,7 +2457,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type"        = "integer"
                                                         }
                                                         "tcpSocket" = {
-                                                          "description" = "TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported TODO: implement a realistic TCP lifecycle hook"
+                                                          "description" = "TCPSocket specifies an action involving a TCP port."
                                                           "properties" = {
                                                             "host" = {
                                                               "description" = "Optional: Host name to connect to, defaults to the pod IP."
@@ -2522,7 +2543,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                       "description" = "Periodic probe of container service readiness. Container will be removed from service endpoints if the probe fails. Cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes"
                                                       "properties" = {
                                                         "exec" = {
-                                                          "description" = "One and only one of the following should be specified. Exec specifies the action to take."
+                                                          "description" = "Exec specifies the action to take."
                                                           "properties" = {
                                                             "command" = {
                                                               "description" = "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy."
@@ -2538,6 +2559,27 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "description" = "Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1."
                                                           "format"      = "int32"
                                                           "type"        = "integer"
+                                                        }
+                                                        "grpc" = {
+                                                          "description" = "GRPC specifies an action involving a GRPC port. This is an alpha field and requires enabling GRPCContainerProbe feature gate."
+                                                          "properties" = {
+                                                            "port" = {
+                                                              "description" = "Port number of the gRPC service. Number must be in the range 1 to 65535."
+                                                              "format"      = "int32"
+                                                              "type"        = "integer"
+                                                            }
+                                                            "service" = {
+                                                              "description" = <<-EOT
+                                                              Service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md). 
+                                                               If this is not specified, the default behavior is defined by gRPC.
+                                                              EOT
+                                                              "type"        = "string"
+                                                            }
+                                                          }
+                                                          "required" = [
+                                                            "port",
+                                                          ]
+                                                          "type" = "object"
                                                         }
                                                         "httpGet" = {
                                                           "description" = "HTTPGet specifies the http request to perform."
@@ -2610,7 +2652,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type"        = "integer"
                                                         }
                                                         "tcpSocket" = {
-                                                          "description" = "TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported TODO: implement a realistic TCP lifecycle hook"
+                                                          "description" = "TCPSocket specifies an action involving a TCP port."
                                                           "properties" = {
                                                             "host" = {
                                                               "description" = "Optional: Host name to connect to, defaults to the pod IP."
@@ -2689,11 +2731,11 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                       "description" = "SecurityContext defines the security options the container should be run with. If set, the fields of SecurityContext override the equivalent fields of PodSecurityContext. More info: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/"
                                                       "properties" = {
                                                         "allowPrivilegeEscalation" = {
-                                                          "description" = "AllowPrivilegeEscalation controls whether a process can gain more privileges than its parent process. This bool directly controls if the no_new_privs flag will be set on the container process. AllowPrivilegeEscalation is true always when the container is: 1) run as Privileged 2) has CAP_SYS_ADMIN"
+                                                          "description" = "AllowPrivilegeEscalation controls whether a process can gain more privileges than its parent process. This bool directly controls if the no_new_privs flag will be set on the container process. AllowPrivilegeEscalation is true always when the container is: 1) run as Privileged 2) has CAP_SYS_ADMIN Note that this field cannot be set when spec.os.name is windows."
                                                           "type"        = "boolean"
                                                         }
                                                         "capabilities" = {
-                                                          "description" = "The capabilities to add/drop when running containers. Defaults to the default set of capabilities granted by the container runtime."
+                                                          "description" = "The capabilities to add/drop when running containers. Defaults to the default set of capabilities granted by the container runtime. Note that this field cannot be set when spec.os.name is windows."
                                                           "properties" = {
                                                             "add" = {
                                                               "description" = "Added capabilities"
@@ -2715,19 +2757,19 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type" = "object"
                                                         }
                                                         "privileged" = {
-                                                          "description" = "Run container in privileged mode. Processes in privileged containers are essentially equivalent to root on the host. Defaults to false."
+                                                          "description" = "Run container in privileged mode. Processes in privileged containers are essentially equivalent to root on the host. Defaults to false. Note that this field cannot be set when spec.os.name is windows."
                                                           "type"        = "boolean"
                                                         }
                                                         "procMount" = {
-                                                          "description" = "procMount denotes the type of proc mount to use for the containers. The default is DefaultProcMount which uses the container runtime defaults for readonly paths and masked paths. This requires the ProcMountType feature flag to be enabled."
+                                                          "description" = "procMount denotes the type of proc mount to use for the containers. The default is DefaultProcMount which uses the container runtime defaults for readonly paths and masked paths. This requires the ProcMountType feature flag to be enabled. Note that this field cannot be set when spec.os.name is windows."
                                                           "type"        = "string"
                                                         }
                                                         "readOnlyRootFilesystem" = {
-                                                          "description" = "Whether this container has a read-only root filesystem. Default is false."
+                                                          "description" = "Whether this container has a read-only root filesystem. Default is false. Note that this field cannot be set when spec.os.name is windows."
                                                           "type"        = "boolean"
                                                         }
                                                         "runAsGroup" = {
-                                                          "description" = "The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence."
+                                                          "description" = "The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows."
                                                           "format"      = "int64"
                                                           "type"        = "integer"
                                                         }
@@ -2736,12 +2778,12 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type"        = "boolean"
                                                         }
                                                         "runAsUser" = {
-                                                          "description" = "The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence."
+                                                          "description" = "The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows."
                                                           "format"      = "int64"
                                                           "type"        = "integer"
                                                         }
                                                         "seLinuxOptions" = {
-                                                          "description" = "The SELinux context to be applied to the container. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence."
+                                                          "description" = "The SELinux context to be applied to the container. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows."
                                                           "properties" = {
                                                             "level" = {
                                                               "description" = "Level is SELinux level label that applies to the container."
@@ -2763,7 +2805,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type" = "object"
                                                         }
                                                         "seccompProfile" = {
-                                                          "description" = "The seccomp options to use by this container. If seccomp options are provided at both the pod & container level, the container options override the pod options."
+                                                          "description" = "The seccomp options to use by this container. If seccomp options are provided at both the pod & container level, the container options override the pod options. Note that this field cannot be set when spec.os.name is windows."
                                                           "properties" = {
                                                             "localhostProfile" = {
                                                               "description" = "localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must only be set if type is \"Localhost\"."
@@ -2783,7 +2825,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type" = "object"
                                                         }
                                                         "windowsOptions" = {
-                                                          "description" = "The Windows specific settings applied to all containers. If unspecified, the options from the PodSecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence."
+                                                          "description" = "The Windows specific settings applied to all containers. If unspecified, the options from the PodSecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux."
                                                           "properties" = {
                                                             "gmsaCredentialSpec" = {
                                                               "description" = "GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field."
@@ -2811,7 +2853,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                       "description" = "StartupProbe indicates that the Pod has successfully initialized. If specified, no other probes are executed until this completes successfully. If this probe fails, the Pod will be restarted, just as if the livenessProbe failed. This can be used to provide different probe parameters at the beginning of a Pod's lifecycle, when it might take a long time to load data or warm a cache, than during steady-state operation. This cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes"
                                                       "properties" = {
                                                         "exec" = {
-                                                          "description" = "One and only one of the following should be specified. Exec specifies the action to take."
+                                                          "description" = "Exec specifies the action to take."
                                                           "properties" = {
                                                             "command" = {
                                                               "description" = "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy."
@@ -2827,6 +2869,27 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "description" = "Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1."
                                                           "format"      = "int32"
                                                           "type"        = "integer"
+                                                        }
+                                                        "grpc" = {
+                                                          "description" = "GRPC specifies an action involving a GRPC port. This is an alpha field and requires enabling GRPCContainerProbe feature gate."
+                                                          "properties" = {
+                                                            "port" = {
+                                                              "description" = "Port number of the gRPC service. Number must be in the range 1 to 65535."
+                                                              "format"      = "int32"
+                                                              "type"        = "integer"
+                                                            }
+                                                            "service" = {
+                                                              "description" = <<-EOT
+                                                              Service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md). 
+                                                               If this is not specified, the default behavior is defined by gRPC.
+                                                              EOT
+                                                              "type"        = "string"
+                                                            }
+                                                          }
+                                                          "required" = [
+                                                            "port",
+                                                          ]
+                                                          "type" = "object"
                                                         }
                                                         "httpGet" = {
                                                           "description" = "HTTPGet specifies the http request to perform."
@@ -2899,7 +2962,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type"        = "integer"
                                                         }
                                                         "tcpSocket" = {
-                                                          "description" = "TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported TODO: implement a realistic TCP lifecycle hook"
+                                                          "description" = "TCPSocket specifies an action involving a TCP port."
                                                           "properties" = {
                                                             "host" = {
                                                               "description" = "Optional: Host name to connect to, defaults to the pod IP."
@@ -3074,9 +3137,13 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                 "type"        = "boolean"
                                               }
                                               "ephemeralContainers" = {
-                                                "description" = "List of ephemeral containers run in this pod. Ephemeral containers may be run in an existing pod to perform user-initiated actions such as debugging. This list cannot be specified when creating a pod, and it cannot be modified by updating the pod spec. In order to add an ephemeral container to an existing pod, use the pod's ephemeralcontainers subresource. This field is alpha-level and is only honored by servers that enable the EphemeralContainers feature."
+                                                "description" = "List of ephemeral containers run in this pod. Ephemeral containers may be run in an existing pod to perform user-initiated actions such as debugging. This list cannot be specified when creating a pod, and it cannot be modified by updating the pod spec. In order to add an ephemeral container to an existing pod, use the pod's ephemeralcontainers subresource. This field is beta-level and available on clusters that haven't disabled the EphemeralContainers feature gate."
                                                 "items" = {
-                                                  "description" = "An EphemeralContainer is a container that may be added temporarily to an existing pod for user-initiated activities such as debugging. Ephemeral containers have no resource or scheduling guarantees, and they will not be restarted when they exit or when a pod is removed or restarted. If an ephemeral container causes a pod to exceed its resource allocation, the pod may be evicted. Ephemeral containers may not be added by directly updating the pod spec. They must be added via the pod's ephemeralcontainers subresource, and they will appear in the pod spec once added. This is an alpha feature enabled by the EphemeralContainers feature flag."
+                                                  "description" = <<-EOT
+                                                  An EphemeralContainer is a temporary container that you may add to an existing Pod for user-initiated activities such as debugging. Ephemeral containers have no resource or scheduling guarantees, and they will not be restarted when they exit or when a Pod is removed or restarted. The kubelet may evict a Pod if an ephemeral container causes the Pod to exceed its resource allocation. 
+                                                   To add an ephemeral container, use the ephemeralcontainers subresource of an existing Pod. Ephemeral containers may not be removed or restarted. 
+                                                   This is a beta feature available on clusters that haven't disabled the EphemeralContainers feature gate.
+                                                  EOT
                                                   "properties" = {
                                                     "args" = {
                                                       "description" = "Arguments to the entrypoint. The docker image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. \"$$(VAR_NAME)\" will produce the string literal \"$(VAR_NAME)\". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell"
@@ -3265,7 +3332,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "description" = "PostStart is called immediately after a container is created. If the handler fails, the container is terminated and restarted according to its restart policy. Other management of the container blocks until the hook completes. More info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks"
                                                           "properties" = {
                                                             "exec" = {
-                                                              "description" = "One and only one of the following should be specified. Exec specifies the action to take."
+                                                              "description" = "Exec specifies the action to take."
                                                               "properties" = {
                                                                 "command" = {
                                                                   "description" = "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy."
@@ -3333,7 +3400,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                               "type" = "object"
                                                             }
                                                             "tcpSocket" = {
-                                                              "description" = "TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported TODO: implement a realistic TCP lifecycle hook"
+                                                              "description" = "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept for the backward compatibility. There are no validation of this field and lifecycle hooks will fail in runtime when tcp handler is specified."
                                                               "properties" = {
                                                                 "host" = {
                                                                   "description" = "Optional: Host name to connect to, defaults to the pod IP."
@@ -3361,10 +3428,10 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type" = "object"
                                                         }
                                                         "preStop" = {
-                                                          "description" = "PreStop is called immediately before a container is terminated due to an API request or management event such as liveness/startup probe failure, preemption, resource contention, etc. The handler is not called if the container crashes or exits. The reason for termination is passed to the handler. The Pod's termination grace period countdown begins before the PreStop hooked is executed. Regardless of the outcome of the handler, the container will eventually terminate within the Pod's termination grace period. Other management of the container blocks until the hook completes or until the termination grace period is reached. More info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks"
+                                                          "description" = "PreStop is called immediately before a container is terminated due to an API request or management event such as liveness/startup probe failure, preemption, resource contention, etc. The handler is not called if the container crashes or exits. The Pod's termination grace period countdown begins before the PreStop hook is executed. Regardless of the outcome of the handler, the container will eventually terminate within the Pod's termination grace period (unless delayed by finalizers). Other management of the container blocks until the hook completes or until the termination grace period is reached. More info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks"
                                                           "properties" = {
                                                             "exec" = {
-                                                              "description" = "One and only one of the following should be specified. Exec specifies the action to take."
+                                                              "description" = "Exec specifies the action to take."
                                                               "properties" = {
                                                                 "command" = {
                                                                   "description" = "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy."
@@ -3432,7 +3499,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                               "type" = "object"
                                                             }
                                                             "tcpSocket" = {
-                                                              "description" = "TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported TODO: implement a realistic TCP lifecycle hook"
+                                                              "description" = "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept for the backward compatibility. There are no validation of this field and lifecycle hooks will fail in runtime when tcp handler is specified."
                                                               "properties" = {
                                                                 "host" = {
                                                                   "description" = "Optional: Host name to connect to, defaults to the pod IP."
@@ -3466,7 +3533,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                       "description" = "Probes are not allowed for ephemeral containers."
                                                       "properties" = {
                                                         "exec" = {
-                                                          "description" = "One and only one of the following should be specified. Exec specifies the action to take."
+                                                          "description" = "Exec specifies the action to take."
                                                           "properties" = {
                                                             "command" = {
                                                               "description" = "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy."
@@ -3482,6 +3549,27 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "description" = "Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1."
                                                           "format"      = "int32"
                                                           "type"        = "integer"
+                                                        }
+                                                        "grpc" = {
+                                                          "description" = "GRPC specifies an action involving a GRPC port. This is an alpha field and requires enabling GRPCContainerProbe feature gate."
+                                                          "properties" = {
+                                                            "port" = {
+                                                              "description" = "Port number of the gRPC service. Number must be in the range 1 to 65535."
+                                                              "format"      = "int32"
+                                                              "type"        = "integer"
+                                                            }
+                                                            "service" = {
+                                                              "description" = <<-EOT
+                                                              Service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md). 
+                                                               If this is not specified, the default behavior is defined by gRPC.
+                                                              EOT
+                                                              "type"        = "string"
+                                                            }
+                                                          }
+                                                          "required" = [
+                                                            "port",
+                                                          ]
+                                                          "type" = "object"
                                                         }
                                                         "httpGet" = {
                                                           "description" = "HTTPGet specifies the http request to perform."
@@ -3554,7 +3642,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type"        = "integer"
                                                         }
                                                         "tcpSocket" = {
-                                                          "description" = "TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported TODO: implement a realistic TCP lifecycle hook"
+                                                          "description" = "TCPSocket specifies an action involving a TCP port."
                                                           "properties" = {
                                                             "host" = {
                                                               "description" = "Optional: Host name to connect to, defaults to the pod IP."
@@ -3630,12 +3718,17 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                         "type" = "object"
                                                       }
                                                       "type" = "array"
+                                                      "x-kubernetes-list-map-keys" = [
+                                                        "containerPort",
+                                                        "protocol",
+                                                      ]
+                                                      "x-kubernetes-list-type" = "map"
                                                     }
                                                     "readinessProbe" = {
                                                       "description" = "Probes are not allowed for ephemeral containers."
                                                       "properties" = {
                                                         "exec" = {
-                                                          "description" = "One and only one of the following should be specified. Exec specifies the action to take."
+                                                          "description" = "Exec specifies the action to take."
                                                           "properties" = {
                                                             "command" = {
                                                               "description" = "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy."
@@ -3651,6 +3744,27 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "description" = "Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1."
                                                           "format"      = "int32"
                                                           "type"        = "integer"
+                                                        }
+                                                        "grpc" = {
+                                                          "description" = "GRPC specifies an action involving a GRPC port. This is an alpha field and requires enabling GRPCContainerProbe feature gate."
+                                                          "properties" = {
+                                                            "port" = {
+                                                              "description" = "Port number of the gRPC service. Number must be in the range 1 to 65535."
+                                                              "format"      = "int32"
+                                                              "type"        = "integer"
+                                                            }
+                                                            "service" = {
+                                                              "description" = <<-EOT
+                                                              Service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md). 
+                                                               If this is not specified, the default behavior is defined by gRPC.
+                                                              EOT
+                                                              "type"        = "string"
+                                                            }
+                                                          }
+                                                          "required" = [
+                                                            "port",
+                                                          ]
+                                                          "type" = "object"
                                                         }
                                                         "httpGet" = {
                                                           "description" = "HTTPGet specifies the http request to perform."
@@ -3723,7 +3837,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type"        = "integer"
                                                         }
                                                         "tcpSocket" = {
-                                                          "description" = "TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported TODO: implement a realistic TCP lifecycle hook"
+                                                          "description" = "TCPSocket specifies an action involving a TCP port."
                                                           "properties" = {
                                                             "host" = {
                                                               "description" = "Optional: Host name to connect to, defaults to the pod IP."
@@ -3802,11 +3916,11 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                       "description" = "Optional: SecurityContext defines the security options the ephemeral container should be run with. If set, the fields of SecurityContext override the equivalent fields of PodSecurityContext."
                                                       "properties" = {
                                                         "allowPrivilegeEscalation" = {
-                                                          "description" = "AllowPrivilegeEscalation controls whether a process can gain more privileges than its parent process. This bool directly controls if the no_new_privs flag will be set on the container process. AllowPrivilegeEscalation is true always when the container is: 1) run as Privileged 2) has CAP_SYS_ADMIN"
+                                                          "description" = "AllowPrivilegeEscalation controls whether a process can gain more privileges than its parent process. This bool directly controls if the no_new_privs flag will be set on the container process. AllowPrivilegeEscalation is true always when the container is: 1) run as Privileged 2) has CAP_SYS_ADMIN Note that this field cannot be set when spec.os.name is windows."
                                                           "type"        = "boolean"
                                                         }
                                                         "capabilities" = {
-                                                          "description" = "The capabilities to add/drop when running containers. Defaults to the default set of capabilities granted by the container runtime."
+                                                          "description" = "The capabilities to add/drop when running containers. Defaults to the default set of capabilities granted by the container runtime. Note that this field cannot be set when spec.os.name is windows."
                                                           "properties" = {
                                                             "add" = {
                                                               "description" = "Added capabilities"
@@ -3828,19 +3942,19 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type" = "object"
                                                         }
                                                         "privileged" = {
-                                                          "description" = "Run container in privileged mode. Processes in privileged containers are essentially equivalent to root on the host. Defaults to false."
+                                                          "description" = "Run container in privileged mode. Processes in privileged containers are essentially equivalent to root on the host. Defaults to false. Note that this field cannot be set when spec.os.name is windows."
                                                           "type"        = "boolean"
                                                         }
                                                         "procMount" = {
-                                                          "description" = "procMount denotes the type of proc mount to use for the containers. The default is DefaultProcMount which uses the container runtime defaults for readonly paths and masked paths. This requires the ProcMountType feature flag to be enabled."
+                                                          "description" = "procMount denotes the type of proc mount to use for the containers. The default is DefaultProcMount which uses the container runtime defaults for readonly paths and masked paths. This requires the ProcMountType feature flag to be enabled. Note that this field cannot be set when spec.os.name is windows."
                                                           "type"        = "string"
                                                         }
                                                         "readOnlyRootFilesystem" = {
-                                                          "description" = "Whether this container has a read-only root filesystem. Default is false."
+                                                          "description" = "Whether this container has a read-only root filesystem. Default is false. Note that this field cannot be set when spec.os.name is windows."
                                                           "type"        = "boolean"
                                                         }
                                                         "runAsGroup" = {
-                                                          "description" = "The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence."
+                                                          "description" = "The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows."
                                                           "format"      = "int64"
                                                           "type"        = "integer"
                                                         }
@@ -3849,12 +3963,12 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type"        = "boolean"
                                                         }
                                                         "runAsUser" = {
-                                                          "description" = "The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence."
+                                                          "description" = "The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows."
                                                           "format"      = "int64"
                                                           "type"        = "integer"
                                                         }
                                                         "seLinuxOptions" = {
-                                                          "description" = "The SELinux context to be applied to the container. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence."
+                                                          "description" = "The SELinux context to be applied to the container. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows."
                                                           "properties" = {
                                                             "level" = {
                                                               "description" = "Level is SELinux level label that applies to the container."
@@ -3876,7 +3990,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type" = "object"
                                                         }
                                                         "seccompProfile" = {
-                                                          "description" = "The seccomp options to use by this container. If seccomp options are provided at both the pod & container level, the container options override the pod options."
+                                                          "description" = "The seccomp options to use by this container. If seccomp options are provided at both the pod & container level, the container options override the pod options. Note that this field cannot be set when spec.os.name is windows."
                                                           "properties" = {
                                                             "localhostProfile" = {
                                                               "description" = "localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must only be set if type is \"Localhost\"."
@@ -3896,7 +4010,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type" = "object"
                                                         }
                                                         "windowsOptions" = {
-                                                          "description" = "The Windows specific settings applied to all containers. If unspecified, the options from the PodSecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence."
+                                                          "description" = "The Windows specific settings applied to all containers. If unspecified, the options from the PodSecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux."
                                                           "properties" = {
                                                             "gmsaCredentialSpec" = {
                                                               "description" = "GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field."
@@ -3924,7 +4038,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                       "description" = "Probes are not allowed for ephemeral containers."
                                                       "properties" = {
                                                         "exec" = {
-                                                          "description" = "One and only one of the following should be specified. Exec specifies the action to take."
+                                                          "description" = "Exec specifies the action to take."
                                                           "properties" = {
                                                             "command" = {
                                                               "description" = "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy."
@@ -3940,6 +4054,27 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "description" = "Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1."
                                                           "format"      = "int32"
                                                           "type"        = "integer"
+                                                        }
+                                                        "grpc" = {
+                                                          "description" = "GRPC specifies an action involving a GRPC port. This is an alpha field and requires enabling GRPCContainerProbe feature gate."
+                                                          "properties" = {
+                                                            "port" = {
+                                                              "description" = "Port number of the gRPC service. Number must be in the range 1 to 65535."
+                                                              "format"      = "int32"
+                                                              "type"        = "integer"
+                                                            }
+                                                            "service" = {
+                                                              "description" = <<-EOT
+                                                              Service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md). 
+                                                               If this is not specified, the default behavior is defined by gRPC.
+                                                              EOT
+                                                              "type"        = "string"
+                                                            }
+                                                          }
+                                                          "required" = [
+                                                            "port",
+                                                          ]
+                                                          "type" = "object"
                                                         }
                                                         "httpGet" = {
                                                           "description" = "HTTPGet specifies the http request to perform."
@@ -4012,7 +4147,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type"        = "integer"
                                                         }
                                                         "tcpSocket" = {
-                                                          "description" = "TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported TODO: implement a realistic TCP lifecycle hook"
+                                                          "description" = "TCPSocket specifies an action involving a TCP port."
                                                           "properties" = {
                                                             "host" = {
                                                               "description" = "Optional: Host name to connect to, defaults to the pod IP."
@@ -4058,7 +4193,10 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                       "type"        = "boolean"
                                                     }
                                                     "targetContainerName" = {
-                                                      "description" = "If set, the name of the container from PodSpec that this ephemeral container targets. The ephemeral container will be run in the namespaces (IPC, PID, etc) of this container. If not set then the ephemeral container is run in whatever namespaces are shared for the pod. Note that the container runtime must support this feature."
+                                                      "description" = <<-EOT
+                                                      If set, the name of the container from PodSpec that this ephemeral container targets. The ephemeral container will be run in the namespaces (IPC, PID, etc) of this container. If not set then the ephemeral container uses the namespaces configured in the Pod spec. 
+                                                       The container runtime must implement support for this feature. If the runtime does not support namespace targeting then the result of setting this field is undefined.
+                                                      EOT
                                                       "type"        = "string"
                                                     }
                                                     "terminationMessagePath" = {
@@ -4096,7 +4234,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                       "type" = "array"
                                                     }
                                                     "volumeMounts" = {
-                                                      "description" = "Pod volumes to mount into the container's filesystem. Cannot be updated."
+                                                      "description" = "Pod volumes to mount into the container's filesystem. Subpath mounts are not allowed for ephemeral containers. Cannot be updated."
                                                       "items" = {
                                                         "description" = "VolumeMount describes a mounting of a Volume within a container."
                                                         "properties" = {
@@ -4388,7 +4526,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "description" = "PostStart is called immediately after a container is created. If the handler fails, the container is terminated and restarted according to its restart policy. Other management of the container blocks until the hook completes. More info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks"
                                                           "properties" = {
                                                             "exec" = {
-                                                              "description" = "One and only one of the following should be specified. Exec specifies the action to take."
+                                                              "description" = "Exec specifies the action to take."
                                                               "properties" = {
                                                                 "command" = {
                                                                   "description" = "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy."
@@ -4456,7 +4594,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                               "type" = "object"
                                                             }
                                                             "tcpSocket" = {
-                                                              "description" = "TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported TODO: implement a realistic TCP lifecycle hook"
+                                                              "description" = "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept for the backward compatibility. There are no validation of this field and lifecycle hooks will fail in runtime when tcp handler is specified."
                                                               "properties" = {
                                                                 "host" = {
                                                                   "description" = "Optional: Host name to connect to, defaults to the pod IP."
@@ -4484,10 +4622,10 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type" = "object"
                                                         }
                                                         "preStop" = {
-                                                          "description" = "PreStop is called immediately before a container is terminated due to an API request or management event such as liveness/startup probe failure, preemption, resource contention, etc. The handler is not called if the container crashes or exits. The reason for termination is passed to the handler. The Pod's termination grace period countdown begins before the PreStop hooked is executed. Regardless of the outcome of the handler, the container will eventually terminate within the Pod's termination grace period. Other management of the container blocks until the hook completes or until the termination grace period is reached. More info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks"
+                                                          "description" = "PreStop is called immediately before a container is terminated due to an API request or management event such as liveness/startup probe failure, preemption, resource contention, etc. The handler is not called if the container crashes or exits. The Pod's termination grace period countdown begins before the PreStop hook is executed. Regardless of the outcome of the handler, the container will eventually terminate within the Pod's termination grace period (unless delayed by finalizers). Other management of the container blocks until the hook completes or until the termination grace period is reached. More info: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#container-hooks"
                                                           "properties" = {
                                                             "exec" = {
-                                                              "description" = "One and only one of the following should be specified. Exec specifies the action to take."
+                                                              "description" = "Exec specifies the action to take."
                                                               "properties" = {
                                                                 "command" = {
                                                                   "description" = "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy."
@@ -4555,7 +4693,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                               "type" = "object"
                                                             }
                                                             "tcpSocket" = {
-                                                              "description" = "TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported TODO: implement a realistic TCP lifecycle hook"
+                                                              "description" = "Deprecated. TCPSocket is NOT supported as a LifecycleHandler and kept for the backward compatibility. There are no validation of this field and lifecycle hooks will fail in runtime when tcp handler is specified."
                                                               "properties" = {
                                                                 "host" = {
                                                                   "description" = "Optional: Host name to connect to, defaults to the pod IP."
@@ -4589,7 +4727,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                       "description" = "Periodic probe of container liveness. Container will be restarted if the probe fails. Cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes"
                                                       "properties" = {
                                                         "exec" = {
-                                                          "description" = "One and only one of the following should be specified. Exec specifies the action to take."
+                                                          "description" = "Exec specifies the action to take."
                                                           "properties" = {
                                                             "command" = {
                                                               "description" = "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy."
@@ -4605,6 +4743,27 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "description" = "Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1."
                                                           "format"      = "int32"
                                                           "type"        = "integer"
+                                                        }
+                                                        "grpc" = {
+                                                          "description" = "GRPC specifies an action involving a GRPC port. This is an alpha field and requires enabling GRPCContainerProbe feature gate."
+                                                          "properties" = {
+                                                            "port" = {
+                                                              "description" = "Port number of the gRPC service. Number must be in the range 1 to 65535."
+                                                              "format"      = "int32"
+                                                              "type"        = "integer"
+                                                            }
+                                                            "service" = {
+                                                              "description" = <<-EOT
+                                                              Service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md). 
+                                                               If this is not specified, the default behavior is defined by gRPC.
+                                                              EOT
+                                                              "type"        = "string"
+                                                            }
+                                                          }
+                                                          "required" = [
+                                                            "port",
+                                                          ]
+                                                          "type" = "object"
                                                         }
                                                         "httpGet" = {
                                                           "description" = "HTTPGet specifies the http request to perform."
@@ -4677,7 +4836,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type"        = "integer"
                                                         }
                                                         "tcpSocket" = {
-                                                          "description" = "TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported TODO: implement a realistic TCP lifecycle hook"
+                                                          "description" = "TCPSocket specifies an action involving a TCP port."
                                                           "properties" = {
                                                             "host" = {
                                                               "description" = "Optional: Host name to connect to, defaults to the pod IP."
@@ -4763,7 +4922,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                       "description" = "Periodic probe of container service readiness. Container will be removed from service endpoints if the probe fails. Cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes"
                                                       "properties" = {
                                                         "exec" = {
-                                                          "description" = "One and only one of the following should be specified. Exec specifies the action to take."
+                                                          "description" = "Exec specifies the action to take."
                                                           "properties" = {
                                                             "command" = {
                                                               "description" = "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy."
@@ -4779,6 +4938,27 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "description" = "Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1."
                                                           "format"      = "int32"
                                                           "type"        = "integer"
+                                                        }
+                                                        "grpc" = {
+                                                          "description" = "GRPC specifies an action involving a GRPC port. This is an alpha field and requires enabling GRPCContainerProbe feature gate."
+                                                          "properties" = {
+                                                            "port" = {
+                                                              "description" = "Port number of the gRPC service. Number must be in the range 1 to 65535."
+                                                              "format"      = "int32"
+                                                              "type"        = "integer"
+                                                            }
+                                                            "service" = {
+                                                              "description" = <<-EOT
+                                                              Service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md). 
+                                                               If this is not specified, the default behavior is defined by gRPC.
+                                                              EOT
+                                                              "type"        = "string"
+                                                            }
+                                                          }
+                                                          "required" = [
+                                                            "port",
+                                                          ]
+                                                          "type" = "object"
                                                         }
                                                         "httpGet" = {
                                                           "description" = "HTTPGet specifies the http request to perform."
@@ -4851,7 +5031,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type"        = "integer"
                                                         }
                                                         "tcpSocket" = {
-                                                          "description" = "TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported TODO: implement a realistic TCP lifecycle hook"
+                                                          "description" = "TCPSocket specifies an action involving a TCP port."
                                                           "properties" = {
                                                             "host" = {
                                                               "description" = "Optional: Host name to connect to, defaults to the pod IP."
@@ -4930,11 +5110,11 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                       "description" = "SecurityContext defines the security options the container should be run with. If set, the fields of SecurityContext override the equivalent fields of PodSecurityContext. More info: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/"
                                                       "properties" = {
                                                         "allowPrivilegeEscalation" = {
-                                                          "description" = "AllowPrivilegeEscalation controls whether a process can gain more privileges than its parent process. This bool directly controls if the no_new_privs flag will be set on the container process. AllowPrivilegeEscalation is true always when the container is: 1) run as Privileged 2) has CAP_SYS_ADMIN"
+                                                          "description" = "AllowPrivilegeEscalation controls whether a process can gain more privileges than its parent process. This bool directly controls if the no_new_privs flag will be set on the container process. AllowPrivilegeEscalation is true always when the container is: 1) run as Privileged 2) has CAP_SYS_ADMIN Note that this field cannot be set when spec.os.name is windows."
                                                           "type"        = "boolean"
                                                         }
                                                         "capabilities" = {
-                                                          "description" = "The capabilities to add/drop when running containers. Defaults to the default set of capabilities granted by the container runtime."
+                                                          "description" = "The capabilities to add/drop when running containers. Defaults to the default set of capabilities granted by the container runtime. Note that this field cannot be set when spec.os.name is windows."
                                                           "properties" = {
                                                             "add" = {
                                                               "description" = "Added capabilities"
@@ -4956,19 +5136,19 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type" = "object"
                                                         }
                                                         "privileged" = {
-                                                          "description" = "Run container in privileged mode. Processes in privileged containers are essentially equivalent to root on the host. Defaults to false."
+                                                          "description" = "Run container in privileged mode. Processes in privileged containers are essentially equivalent to root on the host. Defaults to false. Note that this field cannot be set when spec.os.name is windows."
                                                           "type"        = "boolean"
                                                         }
                                                         "procMount" = {
-                                                          "description" = "procMount denotes the type of proc mount to use for the containers. The default is DefaultProcMount which uses the container runtime defaults for readonly paths and masked paths. This requires the ProcMountType feature flag to be enabled."
+                                                          "description" = "procMount denotes the type of proc mount to use for the containers. The default is DefaultProcMount which uses the container runtime defaults for readonly paths and masked paths. This requires the ProcMountType feature flag to be enabled. Note that this field cannot be set when spec.os.name is windows."
                                                           "type"        = "string"
                                                         }
                                                         "readOnlyRootFilesystem" = {
-                                                          "description" = "Whether this container has a read-only root filesystem. Default is false."
+                                                          "description" = "Whether this container has a read-only root filesystem. Default is false. Note that this field cannot be set when spec.os.name is windows."
                                                           "type"        = "boolean"
                                                         }
                                                         "runAsGroup" = {
-                                                          "description" = "The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence."
+                                                          "description" = "The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows."
                                                           "format"      = "int64"
                                                           "type"        = "integer"
                                                         }
@@ -4977,12 +5157,12 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type"        = "boolean"
                                                         }
                                                         "runAsUser" = {
-                                                          "description" = "The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence."
+                                                          "description" = "The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows."
                                                           "format"      = "int64"
                                                           "type"        = "integer"
                                                         }
                                                         "seLinuxOptions" = {
-                                                          "description" = "The SELinux context to be applied to the container. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence."
+                                                          "description" = "The SELinux context to be applied to the container. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows."
                                                           "properties" = {
                                                             "level" = {
                                                               "description" = "Level is SELinux level label that applies to the container."
@@ -5004,7 +5184,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type" = "object"
                                                         }
                                                         "seccompProfile" = {
-                                                          "description" = "The seccomp options to use by this container. If seccomp options are provided at both the pod & container level, the container options override the pod options."
+                                                          "description" = "The seccomp options to use by this container. If seccomp options are provided at both the pod & container level, the container options override the pod options. Note that this field cannot be set when spec.os.name is windows."
                                                           "properties" = {
                                                             "localhostProfile" = {
                                                               "description" = "localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must only be set if type is \"Localhost\"."
@@ -5024,7 +5204,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type" = "object"
                                                         }
                                                         "windowsOptions" = {
-                                                          "description" = "The Windows specific settings applied to all containers. If unspecified, the options from the PodSecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence."
+                                                          "description" = "The Windows specific settings applied to all containers. If unspecified, the options from the PodSecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux."
                                                           "properties" = {
                                                             "gmsaCredentialSpec" = {
                                                               "description" = "GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field."
@@ -5052,7 +5232,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                       "description" = "StartupProbe indicates that the Pod has successfully initialized. If specified, no other probes are executed until this completes successfully. If this probe fails, the Pod will be restarted, just as if the livenessProbe failed. This can be used to provide different probe parameters at the beginning of a Pod's lifecycle, when it might take a long time to load data or warm a cache, than during steady-state operation. This cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes"
                                                       "properties" = {
                                                         "exec" = {
-                                                          "description" = "One and only one of the following should be specified. Exec specifies the action to take."
+                                                          "description" = "Exec specifies the action to take."
                                                           "properties" = {
                                                             "command" = {
                                                               "description" = "Command is the command line to execute inside the container, the working directory for the command  is root ('/') in the container's filesystem. The command is simply exec'd, it is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy."
@@ -5068,6 +5248,27 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "description" = "Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1."
                                                           "format"      = "int32"
                                                           "type"        = "integer"
+                                                        }
+                                                        "grpc" = {
+                                                          "description" = "GRPC specifies an action involving a GRPC port. This is an alpha field and requires enabling GRPCContainerProbe feature gate."
+                                                          "properties" = {
+                                                            "port" = {
+                                                              "description" = "Port number of the gRPC service. Number must be in the range 1 to 65535."
+                                                              "format"      = "int32"
+                                                              "type"        = "integer"
+                                                            }
+                                                            "service" = {
+                                                              "description" = <<-EOT
+                                                              Service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md). 
+                                                               If this is not specified, the default behavior is defined by gRPC.
+                                                              EOT
+                                                              "type"        = "string"
+                                                            }
+                                                          }
+                                                          "required" = [
+                                                            "port",
+                                                          ]
+                                                          "type" = "object"
                                                         }
                                                         "httpGet" = {
                                                           "description" = "HTTPGet specifies the http request to perform."
@@ -5140,7 +5341,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                           "type"        = "integer"
                                                         }
                                                         "tcpSocket" = {
-                                                          "description" = "TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported TODO: implement a realistic TCP lifecycle hook"
+                                                          "description" = "TCPSocket specifies an action involving a TCP port."
                                                           "properties" = {
                                                             "host" = {
                                                               "description" = "Optional: Host name to connect to, defaults to the pod IP."
@@ -5281,6 +5482,23 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                 "type"                  = "object"
                                                 "x-kubernetes-map-type" = "atomic"
                                               }
+                                              "os" = {
+                                                "description" = <<-EOT
+                                                Specifies the OS of the containers in the pod. Some pod and container fields are restricted if this is set. 
+                                                 If the OS field is set to linux, the following fields must be unset: -securityContext.windowsOptions 
+                                                 If the OS field is set to windows, following fields must be unset: - spec.hostPID - spec.hostIPC - spec.securityContext.seLinuxOptions - spec.securityContext.seccompProfile - spec.securityContext.fsGroup - spec.securityContext.fsGroupChangePolicy - spec.securityContext.sysctls - spec.shareProcessNamespace - spec.securityContext.runAsUser - spec.securityContext.runAsGroup - spec.securityContext.supplementalGroups - spec.containers[*].securityContext.seLinuxOptions - spec.containers[*].securityContext.seccompProfile - spec.containers[*].securityContext.capabilities - spec.containers[*].securityContext.readOnlyRootFilesystem - spec.containers[*].securityContext.privileged - spec.containers[*].securityContext.allowPrivilegeEscalation - spec.containers[*].securityContext.procMount - spec.containers[*].securityContext.runAsUser - spec.containers[*].securityContext.runAsGroup This is an alpha field and requires the IdentifyPodOS feature
+                                                EOT
+                                                "properties" = {
+                                                  "name" = {
+                                                    "description" = "Name is the name of the operating system. The currently supported values are linux and windows. Additional value may be defined in future and can be one of: https://github.com/opencontainers/runtime-spec/blob/master/config.md#platform-specific-configuration Clients should expect to handle additional values and treat unrecognized values in this field as os: null"
+                                                    "type"        = "string"
+                                                  }
+                                                }
+                                                "required" = [
+                                                  "name",
+                                                ]
+                                                "type" = "object"
+                                              }
                                               "overhead" = {
                                                 "additionalProperties" = {
                                                   "anyOf" = [
@@ -5346,17 +5564,17 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                     "description" = <<-EOT
                                                     A special supplemental group that applies to all containers in a pod. Some volume types allow the Kubelet to change the ownership of that volume to be owned by the pod: 
                                                      1. The owning GID will be the FSGroup 2. The setgid bit is set (new files created in the volume will be owned by FSGroup) 3. The permission bits are OR'd with rw-rw---- 
-                                                     If unset, the Kubelet will not modify the ownership and permissions of any volume.
+                                                     If unset, the Kubelet will not modify the ownership and permissions of any volume. Note that this field cannot be set when spec.os.name is windows.
                                                     EOT
                                                     "format"      = "int64"
                                                     "type"        = "integer"
                                                   }
                                                   "fsGroupChangePolicy" = {
-                                                    "description" = "fsGroupChangePolicy defines behavior of changing ownership and permission of the volume before being exposed inside Pod. This field will only apply to volume types which support fsGroup based ownership(and permissions). It will have no effect on ephemeral volume types such as: secret, configmaps and emptydir. Valid values are \"OnRootMismatch\" and \"Always\". If not specified, \"Always\" is used."
+                                                    "description" = "fsGroupChangePolicy defines behavior of changing ownership and permission of the volume before being exposed inside Pod. This field will only apply to volume types which support fsGroup based ownership(and permissions). It will have no effect on ephemeral volume types such as: secret, configmaps and emptydir. Valid values are \"OnRootMismatch\" and \"Always\". If not specified, \"Always\" is used. Note that this field cannot be set when spec.os.name is windows."
                                                     "type"        = "string"
                                                   }
                                                   "runAsGroup" = {
-                                                    "description" = "The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container."
+                                                    "description" = "The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows."
                                                     "format"      = "int64"
                                                     "type"        = "integer"
                                                   }
@@ -5365,12 +5583,12 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                     "type"        = "boolean"
                                                   }
                                                   "runAsUser" = {
-                                                    "description" = "The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container."
+                                                    "description" = "The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows."
                                                     "format"      = "int64"
                                                     "type"        = "integer"
                                                   }
                                                   "seLinuxOptions" = {
-                                                    "description" = "The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container."
+                                                    "description" = "The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows."
                                                     "properties" = {
                                                       "level" = {
                                                         "description" = "Level is SELinux level label that applies to the container."
@@ -5392,7 +5610,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                     "type" = "object"
                                                   }
                                                   "seccompProfile" = {
-                                                    "description" = "The seccomp options to use by the containers in this pod."
+                                                    "description" = "The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows."
                                                     "properties" = {
                                                       "localhostProfile" = {
                                                         "description" = "localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must only be set if type is \"Localhost\"."
@@ -5412,7 +5630,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                     "type" = "object"
                                                   }
                                                   "supplementalGroups" = {
-                                                    "description" = "A list of groups applied to the first process run in each container, in addition to the container's primary GID.  If unspecified, no groups will be added to any container."
+                                                    "description" = "A list of groups applied to the first process run in each container, in addition to the container's primary GID.  If unspecified, no groups will be added to any container. Note that this field cannot be set when spec.os.name is windows."
                                                     "items" = {
                                                       "format" = "int64"
                                                       "type"   = "integer"
@@ -5420,7 +5638,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                     "type" = "array"
                                                   }
                                                   "sysctls" = {
-                                                    "description" = "Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch."
+                                                    "description" = "Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch. Note that this field cannot be set when spec.os.name is windows."
                                                     "items" = {
                                                       "description" = "Sysctl defines a kernel parameter to be set"
                                                       "properties" = {
@@ -5442,7 +5660,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                     "type" = "array"
                                                   }
                                                   "windowsOptions" = {
-                                                    "description" = "The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence."
+                                                    "description" = "The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux."
                                                     "properties" = {
                                                       "gmsaCredentialSpec" = {
                                                         "description" = "GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field."
@@ -5579,7 +5797,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                       "type"        = "string"
                                                     }
                                                     "whenUnsatisfiable" = {
-                                                      "description" = "WhenUnsatisfiable indicates how to deal with a pod if it doesn't satisfy the spread constraint. - DoNotSchedule (default) tells the scheduler not to schedule it. - ScheduleAnyway tells the scheduler to schedule the pod in any location,   but giving higher precedence to topologies that would help reduce the   skew. A constraint is considered \"Unsatisfiable\" for an incoming pod if and only if every possible node assigment for that pod would violate \"MaxSkew\" on some topology. For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same labelSelector spread as 3/1/1: | zone1 | zone2 | zone3 | | P P P |   P   |   P   | If WhenUnsatisfiable is set to DoNotSchedule, incoming pod can only be scheduled to zone2(zone3) to become 3/2/1(3/1/2) as ActualSkew(2-1) on zone2(zone3) satisfies MaxSkew(1). In other words, the cluster can still be imbalanced, but scheduler won't make it *more* imbalanced. It's a required field."
+                                                      "description" = "WhenUnsatisfiable indicates how to deal with a pod if it doesn't satisfy the spread constraint. - DoNotSchedule (default) tells the scheduler not to schedule it. - ScheduleAnyway tells the scheduler to schedule the pod in any location, but giving higher precedence to topologies that would help reduce the skew. A constraint is considered \"Unsatisfiable\" for an incoming pod if and only if every possible node assignment for that pod would violate \"MaxSkew\" on some topology. For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same labelSelector spread as 3/1/1: | zone1 | zone2 | zone3 | | P P P |   P   |   P   | If WhenUnsatisfiable is set to DoNotSchedule, incoming pod can only be scheduled to zone2(zone3) to become 3/2/1(3/1/2) as ActualSkew(2-1) on zone2(zone3) satisfies MaxSkew(1). In other words, the cluster can still be imbalanced, but scheduler won't make it *more* imbalanced. It's a required field."
                                                       "type"        = "string"
                                                     }
                                                   }
@@ -5947,11 +6165,10 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                     "ephemeral" = {
                                                       "description" = <<-EOT
                                                       Ephemeral represents a volume that is handled by a cluster storage driver. The volume's lifecycle is tied to the pod that defines it - it will be created before the pod starts, and deleted when the pod is removed. 
-                                                       Use this if: a) the volume is only needed while the pod runs, b) features of normal volumes like restoring from snapshot or capacity    tracking are needed, c) the storage driver is specified through a storage class, and d) the storage driver supports dynamic volume provisioning through    a PersistentVolumeClaim (see EphemeralVolumeSource for more    information on the connection between this volume type    and PersistentVolumeClaim). 
+                                                       Use this if: a) the volume is only needed while the pod runs, b) features of normal volumes like restoring from snapshot or capacity tracking are needed, c) the storage driver is specified through a storage class, and d) the storage driver supports dynamic volume provisioning through a PersistentVolumeClaim (see EphemeralVolumeSource for more information on the connection between this volume type and PersistentVolumeClaim). 
                                                        Use PersistentVolumeClaim or one of the vendor-specific APIs for volumes that persist for longer than the lifecycle of an individual pod. 
                                                        Use CSI for light-weight local ephemeral volumes if the CSI driver is meant to be used that way - see the documentation of the driver for more information. 
-                                                       A pod can use both types of ephemeral volumes and persistent volumes at the same time. 
-                                                       This is a beta feature and only available when the GenericEphemeralVolume feature gate is enabled.
+                                                       A pod can use both types of ephemeral volumes and persistent volumes at the same time.
                                                       EOT
                                                       "properties" = {
                                                         "volumeClaimTemplate" = {
@@ -5999,7 +6216,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                                   "type" = "object"
                                                                 }
                                                                 "dataSourceRef" = {
-                                                                  "description" = "Specifies the object from which to populate the volume with data, if a non-empty volume is desired. This may be any local object from a non-empty API group (non core object) or a PersistentVolumeClaim object. When this field is specified, volume binding will only succeed if the type of the specified object matches some installed volume populator or dynamic provisioner. This field will replace the functionality of the DataSource field and as such if both fields are non-empty, they must have the same value. For backwards compatibility, both fields (DataSource and DataSourceRef) will be set to the same value automatically if one of them is empty and the other is non-empty. There are two important differences between DataSource and DataSourceRef: * While DataSource only allows two specific types of objects, DataSourceRef   allows any non-core object, as well as PersistentVolumeClaim objects. * While DataSource ignores disallowed values (dropping them), DataSourceRef   preserves all values, and generates an error if a disallowed value is   specified. (Alpha) Using this field requires the AnyVolumeDataSource feature gate to be enabled."
+                                                                  "description" = "Specifies the object from which to populate the volume with data, if a non-empty volume is desired. This may be any local object from a non-empty API group (non core object) or a PersistentVolumeClaim object. When this field is specified, volume binding will only succeed if the type of the specified object matches some installed volume populator or dynamic provisioner. This field will replace the functionality of the DataSource field and as such if both fields are non-empty, they must have the same value. For backwards compatibility, both fields (DataSource and DataSourceRef) will be set to the same value automatically if one of them is empty and the other is non-empty. There are two important differences between DataSource and DataSourceRef: * While DataSource only allows two specific types of objects, DataSourceRef allows any non-core object, as well as PersistentVolumeClaim objects. * While DataSource ignores disallowed values (dropping them), DataSourceRef preserves all values, and generates an error if a disallowed value is specified. (Alpha) Using this field requires the AnyVolumeDataSource feature gate to be enabled."
                                                                   "properties" = {
                                                                     "apiGroup" = {
                                                                       "description" = "APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required."
@@ -6021,7 +6238,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                                                   "type" = "object"
                                                                 }
                                                                 "resources" = {
-                                                                  "description" = "Resources represents the minimum resources the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources"
+                                                                  "description" = "Resources represents the minimum resources the volume should have. If RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements that are lower than previous value but must still be higher than capacity recorded in the status field of the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources"
                                                                   "properties" = {
                                                                     "limits" = {
                                                                       "additionalProperties" = {
@@ -6956,7 +7173,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                                           "type" = "array"
                                         }
                                         "verbs" = {
-                                          "description" = "Verbs is a list of Verbs that apply to ALL the ResourceKinds and AttributeRestrictions contained in this rule. '*' represents all verbs."
+                                          "description" = "Verbs is a list of Verbs that apply to ALL the ResourceKinds contained in this rule. '*' represents all verbs."
                                           "items" = {
                                             "type" = "string"
                                           }
@@ -7067,7 +7284,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                     }
                     "nativeAPIs" = {
                       "items" = {
-                        "description" = "GroupVersionKind unambiguously identifies a kind.  It doesn't anonymously include GroupVersion to avoid automatic coersion.  It doesn't use a GroupVersion to avoid custom marshalling"
+                        "description" = "GroupVersionKind unambiguously identifies a kind.  It doesn't anonymously include GroupVersion to avoid automatic coercion.  It doesn't use a GroupVersion to avoid custom marshalling"
                         "properties" = {
                           "group" = {
                             "type" = "string"
@@ -7172,8 +7389,7 @@ resource "kubernetes_manifest" "customresourcedefinition_clusterserviceversions_
                       "type" = "array"
                     }
                     "version" = {
-                      "description" = "OperatorVersion is a wrapper around semver.Version which supports correct marshaling to YAML and JSON."
-                      "type"        = "string"
+                      "type" = "string"
                     }
                     "webhookdefinitions" = {
                       "items" = {
@@ -7567,7 +7783,7 @@ resource "kubernetes_manifest" "customresourcedefinition_installplans_operators_
     "kind"       = "CustomResourceDefinition"
     "metadata" = {
       "annotations" = {
-        "controller-gen.kubebuilder.io/version" = "v0.6.2"
+        "controller-gen.kubebuilder.io/version" = "v0.8.0"
       }
       "name" = "installplans.operators.coreos.com"
     }
@@ -7850,6 +8066,9 @@ resource "kubernetes_manifest" "customresourcedefinition_installplans_operators_
                       "items" = {
                         "description" = "Step represents the status of an individual step in an InstallPlan."
                         "properties" = {
+                          "optional" = {
+                            "type" = "boolean"
+                          }
                           "resolving" = {
                             "type" = "string"
                           }
@@ -7939,7 +8158,7 @@ resource "kubernetes_manifest" "customresourcedefinition_olmconfigs_operators_co
     "kind"       = "CustomResourceDefinition"
     "metadata" = {
       "annotations" = {
-        "controller-gen.kubebuilder.io/version" = "v0.6.2"
+        "controller-gen.kubebuilder.io/version" = "v0.8.0"
       }
       "name" = "olmconfigs.operators.coreos.com"
     }
@@ -7995,8 +8214,8 @@ resource "kubernetes_manifest" "customresourcedefinition_olmconfigs_operators_co
                     "conditions" = {
                       "items" = {
                         "description" = <<-EOT
-                        Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: "Available", "Progressing", and "Degraded"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:"conditions,omitempty" patchStrategy:"merge" patchMergeKey:"type" protobuf:"bytes,1,rep,name=conditions"` 
-                             // other fields }
+                        Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{ // Represents the observations of a foo's current state. // Known .status.conditions.type are: "Available", "Progressing", and "Degraded" // +patchMergeKey=type // +patchStrategy=merge // +listType=map // +listMapKey=type Conditions []metav1.Condition `json:"conditions,omitempty" patchStrategy:"merge" patchMergeKey:"type" protobuf:"bytes,1,rep,name=conditions"` 
+                         // other fields }
                         EOT
                         "properties" = {
                           "lastTransitionTime" = {
@@ -8076,7 +8295,7 @@ resource "kubernetes_manifest" "customresourcedefinition_operatorconditions_oper
     "kind"       = "CustomResourceDefinition"
     "metadata" = {
       "annotations" = {
-        "controller-gen.kubebuilder.io/version" = "v0.6.2"
+        "controller-gen.kubebuilder.io/version" = "v0.8.0"
       }
       "name" = "operatorconditions.operators.coreos.com"
     }
@@ -8125,8 +8344,8 @@ resource "kubernetes_manifest" "customresourcedefinition_operatorconditions_oper
                     "overrides" = {
                       "items" = {
                         "description" = <<-EOT
-                        Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: "Available", "Progressing", and "Degraded"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:"conditions,omitempty" patchStrategy:"merge" patchMergeKey:"type" protobuf:"bytes,1,rep,name=conditions"` 
-                             // other fields }
+                        Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{ // Represents the observations of a foo's current state. // Known .status.conditions.type are: "Available", "Progressing", and "Degraded" // +patchMergeKey=type // +patchStrategy=merge // +listType=map // +listMapKey=type Conditions []metav1.Condition `json:"conditions,omitempty" patchStrategy:"merge" patchMergeKey:"type" protobuf:"bytes,1,rep,name=conditions"` 
+                         // other fields }
                         EOT
                         "properties" = {
                           "lastTransitionTime" = {
@@ -8193,8 +8412,8 @@ resource "kubernetes_manifest" "customresourcedefinition_operatorconditions_oper
                     "conditions" = {
                       "items" = {
                         "description" = <<-EOT
-                        Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: "Available", "Progressing", and "Degraded"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:"conditions,omitempty" patchStrategy:"merge" patchMergeKey:"type" protobuf:"bytes,1,rep,name=conditions"` 
-                             // other fields }
+                        Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{ // Represents the observations of a foo's current state. // Known .status.conditions.type are: "Available", "Progressing", and "Degraded" // +patchMergeKey=type // +patchStrategy=merge // +listType=map // +listMapKey=type Conditions []metav1.Condition `json:"conditions,omitempty" patchStrategy:"merge" patchMergeKey:"type" protobuf:"bytes,1,rep,name=conditions"` 
+                         // other fields }
                         EOT
                         "properties" = {
                           "lastTransitionTime" = {
@@ -8286,8 +8505,8 @@ resource "kubernetes_manifest" "customresourcedefinition_operatorconditions_oper
                     "conditions" = {
                       "items" = {
                         "description" = <<-EOT
-                        Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: "Available", "Progressing", and "Degraded"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:"conditions,omitempty" patchStrategy:"merge" patchMergeKey:"type" protobuf:"bytes,1,rep,name=conditions"` 
-                             // other fields }
+                        Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{ // Represents the observations of a foo's current state. // Known .status.conditions.type are: "Available", "Progressing", and "Degraded" // +patchMergeKey=type // +patchStrategy=merge // +listType=map // +listMapKey=type Conditions []metav1.Condition `json:"conditions,omitempty" patchStrategy:"merge" patchMergeKey:"type" protobuf:"bytes,1,rep,name=conditions"` 
+                         // other fields }
                         EOT
                         "properties" = {
                           "lastTransitionTime" = {
@@ -8349,8 +8568,8 @@ resource "kubernetes_manifest" "customresourcedefinition_operatorconditions_oper
                     "overrides" = {
                       "items" = {
                         "description" = <<-EOT
-                        Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: "Available", "Progressing", and "Degraded"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:"conditions,omitempty" patchStrategy:"merge" patchMergeKey:"type" protobuf:"bytes,1,rep,name=conditions"` 
-                             // other fields }
+                        Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{ // Represents the observations of a foo's current state. // Known .status.conditions.type are: "Available", "Progressing", and "Degraded" // +patchMergeKey=type // +patchStrategy=merge // +listType=map // +listMapKey=type Conditions []metav1.Condition `json:"conditions,omitempty" patchStrategy:"merge" patchMergeKey:"type" protobuf:"bytes,1,rep,name=conditions"` 
+                         // other fields }
                         EOT
                         "properties" = {
                           "lastTransitionTime" = {
@@ -8417,8 +8636,8 @@ resource "kubernetes_manifest" "customresourcedefinition_operatorconditions_oper
                     "conditions" = {
                       "items" = {
                         "description" = <<-EOT
-                        Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: "Available", "Progressing", and "Degraded"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:"conditions,omitempty" patchStrategy:"merge" patchMergeKey:"type" protobuf:"bytes,1,rep,name=conditions"` 
-                             // other fields }
+                        Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{ // Represents the observations of a foo's current state. // Known .status.conditions.type are: "Available", "Progressing", and "Degraded" // +patchMergeKey=type // +patchStrategy=merge // +listType=map // +listMapKey=type Conditions []metav1.Condition `json:"conditions,omitempty" patchStrategy:"merge" patchMergeKey:"type" protobuf:"bytes,1,rep,name=conditions"` 
+                         // other fields }
                         EOT
                         "properties" = {
                           "lastTransitionTime" = {
@@ -8498,7 +8717,7 @@ resource "kubernetes_manifest" "customresourcedefinition_operatorgroups_operator
     "kind"       = "CustomResourceDefinition"
     "metadata" = {
       "annotations" = {
-        "controller-gen.kubebuilder.io/version" = "v0.6.2"
+        "controller-gen.kubebuilder.io/version" = "v0.8.0"
       }
       "name" = "operatorgroups.operators.coreos.com"
     }
@@ -8536,6 +8755,9 @@ resource "kubernetes_manifest" "customresourcedefinition_operatorgroups_operator
                   "type" = "object"
                 }
                 "spec" = {
+                  "default" = {
+                    "upgradeStrategy" = "Default"
+                  }
                   "description" = "OperatorGroupSpec is the spec for an OperatorGroup resource."
                   "properties" = {
                     "selector" = {
@@ -8596,6 +8818,20 @@ resource "kubernetes_manifest" "customresourcedefinition_operatorgroups_operator
                       "type"                   = "array"
                       "x-kubernetes-list-type" = "set"
                     }
+                    "upgradeStrategy" = {
+                      "default"     = "Default"
+                      "description" = <<-EOT
+                      UpgradeStrategy defines the upgrade strategy for operators in the namespace. There are currently two supported upgrade strategies: 
+                       Default: OLM will only allow clusterServiceVersions to move to the replacing phase from the succeeded phase. This effectively means that OLM will not allow operators to move to the next version if an installation or upgrade has failed. 
+                       TechPreviewUnsafeFailForward: OLM will allow clusterServiceVersions to move to the replacing phase from the succeeded phase or from the failed phase. Additionally, OLM will generate new installPlans when a subscription references a failed installPlan and the catalog has been updated with a new upgrade for the existing set of operators. 
+                       WARNING: The TechPreviewUnsafeFailForward upgrade strategy is unsafe and may result in unexpected behavior or unrecoverable data loss unless you have deep understanding of the set of operators being managed in the namespace.
+                      EOT
+                      "enum" = [
+                        "Default",
+                        "TechPreviewUnsafeFailForward",
+                      ]
+                      "type" = "string"
+                    }
                   }
                   "type" = "object"
                 }
@@ -8606,8 +8842,8 @@ resource "kubernetes_manifest" "customresourcedefinition_operatorgroups_operator
                       "description" = "Conditions is an array of the OperatorGroup's conditions."
                       "items" = {
                         "description" = <<-EOT
-                        Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{     // Represents the observations of a foo's current state.     // Known .status.conditions.type are: "Available", "Progressing", and "Degraded"     // +patchMergeKey=type     // +patchStrategy=merge     // +listType=map     // +listMapKey=type     Conditions []metav1.Condition `json:"conditions,omitempty" patchStrategy:"merge" patchMergeKey:"type" protobuf:"bytes,1,rep,name=conditions"` 
-                             // other fields }
+                        Condition contains details for one aspect of the current state of this API Resource. --- This struct is intended for direct use as an array at the field path .status.conditions.  For example, type FooStatus struct{ // Represents the observations of a foo's current state. // Known .status.conditions.type are: "Available", "Progressing", and "Degraded" // +patchMergeKey=type // +patchStrategy=merge // +listType=map // +listMapKey=type Conditions []metav1.Condition `json:"conditions,omitempty" patchStrategy:"merge" patchMergeKey:"type" protobuf:"bytes,1,rep,name=conditions"` 
+                         // other fields }
                         EOT
                         "properties" = {
                           "lastTransitionTime" = {
@@ -8885,7 +9121,7 @@ resource "kubernetes_manifest" "customresourcedefinition_operators_operators_cor
     "kind"       = "CustomResourceDefinition"
     "metadata" = {
       "annotations" = {
-        "controller-gen.kubebuilder.io/version" = "v0.6.2"
+        "controller-gen.kubebuilder.io/version" = "v0.8.0"
       }
       "name" = "operators.operators.coreos.com"
     }
@@ -9079,7 +9315,7 @@ resource "kubernetes_manifest" "customresourcedefinition_subscriptions_operators
     "kind"       = "CustomResourceDefinition"
     "metadata" = {
       "annotations" = {
-        "controller-gen.kubebuilder.io/version" = "v0.6.2"
+        "controller-gen.kubebuilder.io/version" = "v0.8.0"
       }
       "name" = "subscriptions.operators.coreos.com"
     }
@@ -9810,11 +10046,10 @@ resource "kubernetes_manifest" "customresourcedefinition_subscriptions_operators
                               "ephemeral" = {
                                 "description" = <<-EOT
                                 Ephemeral represents a volume that is handled by a cluster storage driver. The volume's lifecycle is tied to the pod that defines it - it will be created before the pod starts, and deleted when the pod is removed. 
-                                 Use this if: a) the volume is only needed while the pod runs, b) features of normal volumes like restoring from snapshot or capacity    tracking are needed, c) the storage driver is specified through a storage class, and d) the storage driver supports dynamic volume provisioning through    a PersistentVolumeClaim (see EphemeralVolumeSource for more    information on the connection between this volume type    and PersistentVolumeClaim). 
+                                 Use this if: a) the volume is only needed while the pod runs, b) features of normal volumes like restoring from snapshot or capacity tracking are needed, c) the storage driver is specified through a storage class, and d) the storage driver supports dynamic volume provisioning through a PersistentVolumeClaim (see EphemeralVolumeSource for more information on the connection between this volume type and PersistentVolumeClaim). 
                                  Use PersistentVolumeClaim or one of the vendor-specific APIs for volumes that persist for longer than the lifecycle of an individual pod. 
                                  Use CSI for light-weight local ephemeral volumes if the CSI driver is meant to be used that way - see the documentation of the driver for more information. 
-                                 A pod can use both types of ephemeral volumes and persistent volumes at the same time. 
-                                 This is a beta feature and only available when the GenericEphemeralVolume feature gate is enabled.
+                                 A pod can use both types of ephemeral volumes and persistent volumes at the same time.
                                 EOT
                                 "properties" = {
                                   "volumeClaimTemplate" = {
@@ -9862,7 +10097,7 @@ resource "kubernetes_manifest" "customresourcedefinition_subscriptions_operators
                                             "type" = "object"
                                           }
                                           "dataSourceRef" = {
-                                            "description" = "Specifies the object from which to populate the volume with data, if a non-empty volume is desired. This may be any local object from a non-empty API group (non core object) or a PersistentVolumeClaim object. When this field is specified, volume binding will only succeed if the type of the specified object matches some installed volume populator or dynamic provisioner. This field will replace the functionality of the DataSource field and as such if both fields are non-empty, they must have the same value. For backwards compatibility, both fields (DataSource and DataSourceRef) will be set to the same value automatically if one of them is empty and the other is non-empty. There are two important differences between DataSource and DataSourceRef: * While DataSource only allows two specific types of objects, DataSourceRef   allows any non-core object, as well as PersistentVolumeClaim objects. * While DataSource ignores disallowed values (dropping them), DataSourceRef   preserves all values, and generates an error if a disallowed value is   specified. (Alpha) Using this field requires the AnyVolumeDataSource feature gate to be enabled."
+                                            "description" = "Specifies the object from which to populate the volume with data, if a non-empty volume is desired. This may be any local object from a non-empty API group (non core object) or a PersistentVolumeClaim object. When this field is specified, volume binding will only succeed if the type of the specified object matches some installed volume populator or dynamic provisioner. This field will replace the functionality of the DataSource field and as such if both fields are non-empty, they must have the same value. For backwards compatibility, both fields (DataSource and DataSourceRef) will be set to the same value automatically if one of them is empty and the other is non-empty. There are two important differences between DataSource and DataSourceRef: * While DataSource only allows two specific types of objects, DataSourceRef allows any non-core object, as well as PersistentVolumeClaim objects. * While DataSource ignores disallowed values (dropping them), DataSourceRef preserves all values, and generates an error if a disallowed value is specified. (Alpha) Using this field requires the AnyVolumeDataSource feature gate to be enabled."
                                             "properties" = {
                                               "apiGroup" = {
                                                 "description" = "APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required."
@@ -9884,7 +10119,7 @@ resource "kubernetes_manifest" "customresourcedefinition_subscriptions_operators
                                             "type" = "object"
                                           }
                                           "resources" = {
-                                            "description" = "Resources represents the minimum resources the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources"
+                                            "description" = "Resources represents the minimum resources the volume should have. If RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements that are lower than previous value but must still be higher than capacity recorded in the status field of the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources"
                                             "properties" = {
                                               "limits" = {
                                                 "additionalProperties" = {

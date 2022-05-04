@@ -1,3 +1,3 @@
 locals {
-  olm_version = "0.20.0"
+  olm_version = "0.21.1"
 }

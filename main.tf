@@ -175,10 +175,10 @@ resource "kubernetes_deployment_v1" "catalog_operator" {
           name    = "catalog-operator"
           command = ["/bin/catalog"]
           args = [
-            "-namespace",
+            "--namespace",
             "olm",
-            "-configmapServerImage=quay.io/operator-framework/configmap-operator-registry:latest",
-            "-util-image",
+            "--configmapServerImage=quay.io/operator-framework/configmap-operator-registry:latest",
+            "--util-image",
             "quay.io/operator-framework/olm:v${local.olm_version}"
           ]
           image             = "quay.io/operator-framework/olm:v${local.olm_version}"
